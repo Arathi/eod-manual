@@ -1,0 +1,22 @@
+{
+	"pages": [{
+		"path": "pages/modules/index",
+		"style": {
+			"navigationBarTitleText": "目录"
+		}
+	}, {
+		"path": "pages/modules/wires/index",
+		"style": {
+			"navigationBarTitleText": "线路模块"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	}
+}
