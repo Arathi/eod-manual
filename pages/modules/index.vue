@@ -10,9 +10,11 @@
             <view>线路模块</view>
           </uni-grid-item>
         </navigator>
-        <uni-grid-item>
-          <view>按钮模块</view>
-        </uni-grid-item>
+        <navigator url="buttons/index">
+          <uni-grid-item>
+            <view>按钮模块</view>
+          </uni-grid-item>
+        </navigator>
         <uni-grid-item>
           <view>键盘模块</view>
         </uni-grid-item>

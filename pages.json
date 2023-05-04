@@ -9,6 +9,11 @@
 		"style": {
 			"navigationBarTitleText": "线路模块"
 		}
+	}, {
+		"path": "pages/modules/buttons/index",
+		"style": {
+			"navigationBarTitleText": "按钮模块"
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

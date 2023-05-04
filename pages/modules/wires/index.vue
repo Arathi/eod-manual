@@ -8,7 +8,7 @@
   const labelWidth = ref(90);
 
   // 线路数量
-  const wireAmount = ref(6);
+  const wireAmount = ref(3);
   const WireAmountDatas = computed(() => {
     const datas : any = [];
     for (let amount = 3; amount <= 6; amount++) {
