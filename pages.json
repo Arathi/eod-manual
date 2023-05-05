@@ -19,6 +19,16 @@
 		"style": {
 			"navigationBarTitleText": "四色方块"
 		}
+	}, {
+		"path": "pages/modules/memory/index",
+		"style": {
+			"navigationBarTitleText": "记忆模块"
+		}
+	}, {
+		"path": "pages/modules/morse-code/index",
+		"style": {
+			"navigationBarTitleText": "摩斯电码"
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

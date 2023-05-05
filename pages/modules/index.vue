@@ -26,9 +26,11 @@
         <uni-grid-item>
           <view>他叫什么</view>
         </uni-grid-item>
-        <uni-grid-item>
-          <view>记忆模块</view>
-        </uni-grid-item>
+        <navigator url="memory/index">
+          <uni-grid-item>
+            <view>记忆模块</view>
+          </uni-grid-item>
+        </navigator>
         <uni-grid-item>
           <view>摩斯电码</view>
         </uni-grid-item>

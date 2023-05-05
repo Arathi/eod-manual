@@ -60,6 +60,9 @@
     "h5" : {
         "devServer" : {
             "port" : 30504
+        },
+        "router" : {
+            "mode" : "hash"
         }
     }
 }

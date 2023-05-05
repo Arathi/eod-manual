@@ -7,7 +7,7 @@ export enum SeqLastType {
   char = 3,
 }
 
-type Indicator =
+export type Indicator =
   "SND" |
   "CLR" |
   "CAR" |
