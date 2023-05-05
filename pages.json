@@ -14,6 +14,11 @@
 		"style": {
 			"navigationBarTitleText": "按钮模块"
 		}
+	}, {
+		"path": "pages/modules/four-colors/index",
+		"style": {
+			"navigationBarTitleText": "四色方块"
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -24,12 +24,16 @@ interface State {
   // 序列号
   sequence : string;
   _seqLastType : SeqLastType;
+  _seqHasVowel: boolean;
 
   // 电池数量
   cellAmount : number;
 
   // 标签指示灯
-  indicators : Indicator[]
+  indicators : Indicator[];
+  
+  // 失误次数
+  errorCount: number;
 }
 
 export const useBombStore = defineStore('bomb', {
@@ -37,12 +41,16 @@ export const useBombStore = defineStore('bomb', {
     // 序列号
     sequence: "",
     _seqLastType: SeqLastType.none,
+    _seqHasVowel: false,
 
     // 电池数量
     cellAmount: -1,
     
     // 标签
-    indicators: ['CAR'],
+    indicators: [],
+    
+    // 失误次数
+    errorCount: 0,
   }),
 
   getters: {
@@ -55,6 +63,24 @@ export const useBombStore = defineStore('bomb', {
           return SeqLastType.odd;
         }
         return SeqLastType.char;
+      }
+      return state._seqLastType;
+    },
+    
+    seqHasVowel: (state: State) => {
+      if (state.sequence.length > 0) {
+        const upper = state.sequence.toUpperCase();
+        let index = upper.indexOf('A');
+        if (index >= 0) return true;
+        index = upper.indexOf('E');
+        if (index >= 0) return true;
+        index = upper.indexOf('I');
+        if (index >= 0) return true;
+        index = upper.indexOf('O');
+        if (index >= 0) return true;
+        index = upper.indexOf('U');
+        if (index >= 0) return true;
+        return false;
       }
       return state._seqLastType;
     },

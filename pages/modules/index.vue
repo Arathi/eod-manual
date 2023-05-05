@@ -18,9 +18,11 @@
         <uni-grid-item>
           <view>键盘模块</view>
         </uni-grid-item>
-        <uni-grid-item>
-          <view>四色方块</view>
-        </uni-grid-item>
+        <navigator url="four-colors/index">
+          <uni-grid-item>
+            <view>四色方块</view>
+          </uni-grid-item>
+        </navigator>
         <uni-grid-item>
           <view>他叫什么</view>
         </uni-grid-item>
