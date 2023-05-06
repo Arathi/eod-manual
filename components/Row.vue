@@ -5,7 +5,7 @@
     titleWidth ?: number;
     marginBottom ?: number;
   }>();
-  
+
   const DefaultTitleWidth = 80;
   const DefaultMarginBottom = 8;
 
@@ -13,7 +13,7 @@
     if (props.titleWidth != undefined) return props.titleWidth;
     return DefaultTitleWidth;
   });
-  
+
   const marginBottom = computed(() => {
     if (props.marginBottom != undefined) return props.marginBottom;
     return DefaultMarginBottom;
@@ -23,7 +23,9 @@
 <template>
   <view class="container">
     <view class="title">
-      <text>{{title}}</text>
+      <slot name="title">
+        <text>{{title}}</text>
+      </slot>
     </view>
     <view class="content">
       <slot></slot>

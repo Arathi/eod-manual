@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
+  import UndSection from '@/components/Section.vue';
   
   const words = {
     shell: 3.505,
@@ -53,12 +54,12 @@
     Z: "--..",
   };
   
-  console.info("生成 摩斯电码-字母 码表如下：");
+  console.debug("生成 摩斯电码-字母 码表如下：");
   const morseCodeToAlphabet: any = {};
   for (let key in alphabetToMorseCode) {
     let code = alphabetToMorseCode[key];
     morseCodeToAlphabet[code] = key.toLowerCase();
-    console.info(`${code} => ${key.toLowerCase()}`);
+    console.debug(`${code} => ${key.toLowerCase()}`);
   }
   
   type MorseCodeSymbol = "." | "-";
@@ -117,26 +118,28 @@
 </script>
 
 <template>
-  <uni-section title="摩斯电码输入" type='line'>
-    <uni-row :gutter="4">
-      <uni-col :span="4" :offset="2">
+  <und-section title="摩斯电码输入">
+    <uni-row :gutter="8">
+      <uni-col :span="9" :offset="3">
         <button size="mini" style="width: 100%;" @click="input('.')">·</button>
       </uni-col>
-      <uni-col :span="4">
+      <uni-col :span="9">
         <button size="mini" style="width: 100%;" @click="input('-')">—</button>
       </uni-col>
-      <uni-col :span="4">
-        <button size="mini" @click="nextCode">确认</button>
+    </uni-row>
+    <uni-row :gutter="8">
+      <uni-col :span="6" :offset="3">
+        <button size="mini" type="primary" style="width: 100%;" @click="nextCode">确认</button>
       </uni-col>
-      <uni-col :span="4">
-        <button size="mini" @click="skipCode">跳过</button>
+      <uni-col :span="6">
+        <button size="mini" style="width: 100%;" @click="skipCode">跳过</button>
       </uni-col>
-      <uni-col :span="4">
-        <button size="mini" @click="clear">清空</button>
+      <uni-col :span="6">
+        <button size="mini" type="warn" style="width: 100%;" @click="clear">清空</button>
       </uni-col>
     </uni-row>
-  </uni-section>
-  <uni-section title="当前编码" type='line'>
+  </und-section>
+  <und-section title="当前编码">
     <uni-row :gutter="4">
       <uni-col :span="11">
         <view class="morse-code">
@@ -147,16 +150,16 @@
         <view>{{ currentChar }}</view>
       </uni-col>
     </uni-row>
-  </uni-section>
-  <uni-section title="当前单词" type='line'>
+  </und-section>
+  <und-section title="当前单词">
     {{ currentWord }}
-  </uni-section>
-  <uni-section title="筛选结果" type='line'>
+  </und-section>
+  <und-section title="筛选结果">
     <uni-row v-for="result in results">
       <uni-col :span="12">{{ result }}</uni-col>
-      <uni-col :span="12">{{ words[result] + 'MHz' }}</uni-col>
+      <uni-col :span="12">{{ words[result].toFixed(3) + ' MHz' }}</uni-col>
     </uni-row>
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>

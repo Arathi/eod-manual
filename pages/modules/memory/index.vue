@@ -1,10 +1,6 @@
 <script setup lang="ts">
-  import { computed, ref } from "vue";
-  import { useBombStore } from '@/stores/BombStore';
+  import { ref } from "vue";
   import UndSection from '@/components/Section.vue';
-  import UndRow from '@/components/UndRow.vue';
-
-  const bombStore = useBombStore();
 
   interface StepData {
     display : number;

@@ -2,7 +2,7 @@
   import { computed, ref } from "vue";
   import { useBombStore } from '@/stores/BombStore';
   import UndSection from '@/components/Section.vue';
-  import UndRow from '@/components/UndRow.vue';
+  import UndRow from '@/components/Row.vue';
   
   const bombStore = useBombStore();
   

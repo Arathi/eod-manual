@@ -1,63 +1,20 @@
 <script setup lang="ts">
-  import Module from '@/components/ModuleIndexItem.vue';
+  import Module from '@/components/GridItem.vue';
 </script>
 
 <template>
   <uni-section title="常规模块" type="line" class="section">
     <view class="module-group">
       <uni-grid :column="4">
-        <!--
-        <navigator url="wires/index">
-          <uni-grid-item>
-            <view>线路模块</view>
-          </uni-grid-item>
-        </navigator>
-        -->
         <module url="wires/index" text="线路模块" />
         <module url="buttons/index" text="按钮模块" />
+        <module url="keyboard/index" text="键盘模块" />
         <module url="four-colors/index" text="四色方块" />
         <module url="memory/index" text="记忆模块" />
         <module url="morse-code/index" text="摩斯电码" />
         <module url="wire-sequences/index" text="顺序线路" />
-        
-          <!--
-        <navigator url="buttons/index">
-          <uni-grid-item>
-            <view>按钮模块</view>
-          </uni-grid-item>
-        </navigator>
-        <uni-grid-item>
-          <view>键盘模块</view>
-        </uni-grid-item>
-        <navigator url="four-colors/index">
-          <uni-grid-item>
-            <view>四色方块</view>
-          </uni-grid-item>
-        </navigator>
-        <uni-grid-item>
-          <view>他叫什么</view>
-        </uni-grid-item>
-        <navigator url="memory/index">
-          <uni-grid-item>
-            <view>记忆模块</view>
-          </uni-grid-item>
-        </navigator>
-        <uni-grid-item>
-          <view>摩斯电码</view>
-        </uni-grid-item>
-        <uni-grid-item>
-          <view>复杂模块</view>
-        </uni-grid-item>
-        <uni-grid-item>
-          <view>顺序线路</view>
-        </uni-grid-item>
-        <uni-grid-item>
-          <view>迷宫模块</view>
-        </uni-grid-item>
-        <uni-grid-item>
-          <view>密码模块</view>
-        </uni-grid-item>
-        -->
+        <module url="mazes/index" text="迷宫模块" />
+        <module url="passwords/index" text="密码模块" />
       </uni-grid>
     </view>
   </uni-section>

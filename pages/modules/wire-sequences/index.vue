@@ -3,6 +3,7 @@
   import { WireColor, ConnectPoint, WireStatus } from './defines';
   import WireConnect from './WireConnect.vue';
   import { useWireSequencesStore } from '@/stores/WireSequencesStore';
+  import UndSection from '@/components/Section.vue';
 
   const store = useWireSequencesStore();
   
@@ -10,12 +11,7 @@
     store.init();
   });
 
-  const actions = ref<string[]>([
-    '',
-    '',
-    '',
-    ''
-  ]);
+  const actions = ref<string[]>(['', '', '', '']);
 
   function actionRedWire(index : number, count : number, connectTo : ConnectPoint) : string | null {
     let cut = false;
@@ -204,25 +200,20 @@
 </script>
 
 <template>
-  <uni-section title="模块信息" type="line">
+  <und-section title="模块信息">
     <view class="module">
       <template v-for="i in store.step">
         <wire-connect :index="(i-1)*3+0" />
         <wire-connect :index="(i-1)*3+1" />
         <wire-connect :index="(i-1)*3+2" />
-        <!--
-        <uni-forms-item :label="`模块${i}操作：`" :label-width="labelWidth">
-          <view>{{ actions[i-1] }}</view>
-        </uni-forms-item>
-        -->
         <view class="divider" />
       </template>
       
-      <uni-row :gutter="10">
-        <uni-col :span="12">
+      <uni-row :gutter="40">
+        <uni-col :span="10" :offset="2">
           <button @click="reset" type="warn">重置</button>
         </uni-col>
-        <uni-col :span="12">
+        <uni-col :span="10">
           <button 
             @click="generateActions" 
             type="primary"
@@ -233,7 +224,7 @@
         </uni-col>
       </uni-row>
     </view>
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>

@@ -2,6 +2,7 @@
   import { computed, ref } from 'vue';
   import { WireColor, WireStatus } from './defines';
   import { useWireSequencesStore } from '@/stores/WireSequencesStore';
+  import UndRow from '@/components/Row.vue'
   
   const labelWidth = ref(220);
   const labelMarginTop = ref(15);
@@ -59,7 +60,7 @@
 </script>
 
 <template>
-  <uni-forms-item>
+  <und-row :title="`线路${index+1}`" :title-width="220">
     <uni-row :gutter="10">
       <uni-col :span="12">
         <uni-data-select 
@@ -75,7 +76,7 @@
         />
       </uni-col>
     </uni-row>
-    <template #label>
+    <template #title>
       <view class="form-label">
         <text :class="labelColor">{{ `线缆` + (index + 1) }}</text>
         <text :class="labelColor" v-if="cut == WireStatus.cut">（剪掉）</text>
@@ -85,7 +86,7 @@
         -->
       </view>
     </template>
-  </uni-forms-item>
+  </und-row>
 </template>
 
 <style scoped>

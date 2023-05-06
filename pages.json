@@ -15,6 +15,11 @@
 			"navigationBarTitleText": "按钮模块"
 		}
 	}, {
+		"path": "pages/modules/keyboard/index",
+		"style": {
+			"navigationBarTitleText": "键盘模块"
+		}
+	}, {
 		"path": "pages/modules/four-colors/index",
 		"style": {
 			"navigationBarTitleText": "四色方块"
@@ -33,6 +38,16 @@
 		"path": "pages/modules/wire-sequences/index",
 		"style": {
 			"navigationBarTitleText": "顺序线路"
+		}
+	}, {
+		"path": "pages/modules/mazes/index",
+		"style": {
+			"navigationBarTitleText": "迷宫模块"
+		}
+	}, {
+		"path": "pages/modules/passwords/index",
+		"style": {
+			"navigationBarTitleText": "密码模块"
 		}
 	}, {
 		"path": "pages/test/index",

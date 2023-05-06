@@ -2,7 +2,7 @@
   import { computed, ref } from 'vue';
   import { useBombStore, SeqLastType } from '@/stores/BombStore';
   import UndSection from '@/components/Section.vue';
-  import UndRow from '@/components/UndRow.vue';
+  import UndRow from '@/components/Row.vue';
 
   const bombStore = useBombStore();
 
@@ -316,7 +316,7 @@
       <uni-data-select v-model="wireAmount" :localdata="WireAmountDatas" :clear="false" />
     </und-row>
     <template v-for="wireIndex in wireAmount">
-      <und-row :title="`线路${wireIndex}颜色`" :title-width="labelWidth">
+      <und-row :title="`线路${wireIndex}颜色`" :title-width="labelWidth" class="wire-color-row">
         <uni-data-select v-model="wireColors[wireIndex-1]" :localdata="WireColorDatas" :clear="false"
           placeholder="请选择颜色" />
       </und-row>
@@ -338,5 +338,9 @@
 <style scoped>
   .actions {
     width: 100%;
+  }
+  
+  .wire-color-row:last-child {
+    margin-bottom: 0;
   }
 </style>

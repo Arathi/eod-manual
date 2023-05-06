@@ -2,7 +2,7 @@
   import { computed, ref } from "vue";
   import { useBombStore } from '@/stores/BombStore';
   import UndSection from '@/components/Section.vue';
-  import UndRow from '@/components/UndRow.vue';
+  import UndRow from '@/components/Row.vue';
 
   const bombStore = useBombStore();
 
@@ -17,9 +17,9 @@
     other, // 其他
   }
   const ButtonTextDatas = [
-    { value: ButtonText.abort, text: '中止' },
-    { value: ButtonText.detonate, text: '引爆' },
-    { value: ButtonText.hold, text: '按住' },
+    { value: ButtonText.abort, text: '中止 (step1)' },
+    { value: ButtonText.detonate, text: '引爆 (step2)' },
+    { value: ButtonText.hold, text: '按住 (step6)' },
     { value: ButtonText.other, text: '其他' },
   ];
 
@@ -32,10 +32,10 @@
     other, // 其他
   }
   const ButtonColorDatas = [
-    { value: ButtonColor.blue, text: '蓝色' },
-    { value: ButtonColor.white, text: '白色' },
-    { value: ButtonColor.yellow, text: '黄色' },
-    { value: ButtonColor.red, text: '红色' },
+    { value: ButtonColor.blue, text: '蓝色 (step1)' },
+    { value: ButtonColor.white, text: '白色 (step4)' },
+    { value: ButtonColor.yellow, text: '黄色 (step5)' },
+    { value: ButtonColor.red, text: '红色 (step6)' },
     { value: ButtonColor.other, text: '其他' },
   ];
 
@@ -47,10 +47,10 @@
     other, // 其他
   }
   const LightColorDatas = [
-    { value: LightColor.blue, text: '蓝色' },
-    { value: LightColor.white, text: '白色' },
-    { value: LightColor.yellow, text: '黄色' },
-    { value: LightColor.other, text: '其他' },
+    { value: LightColor.blue, text: '蓝色 (4)' },
+    { value: LightColor.white, text: '白色 (1)' },
+    { value: LightColor.yellow, text: '黄色 (5)' },
+    { value: LightColor.other, text: '其他 (1)' },
   ];
 
   const CellAmountDatas = [
@@ -60,123 +60,8 @@
     { value: 3, text: '3个' },
     { value: 4, text: '4个及以上' },
   ];
-
-  const buttonColor = ref<ButtonColor>(ButtonColor.none);
-  const buttonText = ref<ButtonText>(ButtonText.none);
-  const lightColor = ref<LightColor>(LightColor.none);
-  const indicatorChecked = ref<boolean>(false);
-
-  const step = ref<number>(0);
-  const stepDesc = ref<string[]>([]);
-
+  
   const ActionDescClick = "按下按钮并立即松开";
-
-  const actions = computed(() => {
-    const actions : string[] = [];
-    finalAction.value = "条件不足";
-
-    // 1. 如果是写有“中止”的蓝色按钮，按住按钮，接着参考“松开按住的按钮”。
-    // actions.push(`第一步：检查按钮文本（中止）与颜色（蓝）`);
-    step.value = 0;
-    if (buttonText.value == ButtonText.none) {
-      actions.push(`请选择按钮文本`);
-      return actions;
-    }
-    if (buttonColor.value == ButtonColor.none) {
-      actions.push(`请选择按钮颜色`);
-      return actions;
-    }
-
-    step.value = 1;
-    if (buttonText.value == ButtonText.abort && buttonColor.value == ButtonColor.blue) {
-      return actionsHold(actions);
-    }
-
-    // 2. 如果炸弹上有不止1个电池，同时按钮上写着“引爆”，按下按钮并立即松开。
-    step.value = 2;
-    // actions.push(`第二步：检查电池数量（>1）与按钮文本（引爆）`);
-    if (bombStore.cellAmount < 0) {
-      actions.push(`请选择电池数量`);
-      return actions;
-    }
-    let cellAmountText = `${bombStore.cellAmount}`;
-    if (bombStore.cellAmount >= 4) {
-      cellAmountText += "+";
-    }
-    actions.push(`电池数量：${cellAmountText}`);
-    if (bombStore.cellAmount > 1 && buttonText.value == ButtonText.detonate) {
-      return actionsClick(actions);
-    }
-
-    // 3. 如果按钮是白色的，同时炸弹上有个写着CAR的指示灯亮，按住按钮，接着参考“松开按住的按钮”。
-    step.value = 3;
-    // actions.push(`第三步：按钮颜色（白）与指示灯（CAR）`);
-    if (buttonColor.value == ButtonColor.white && bombStore.CAR) {
-      return actionsHold(actions);
-    }
-
-    // 4. 如果炸弹上有不止2个电池，也有写着FRK的指示灯亮，按下按钮并立即松开。
-    step.value = 4;
-    // actions.push(`第四步：检查电池数量（>2）与指示灯（FRK）`);
-    if (bombStore.cellAmount > 2 && bombStore.FRK) {
-      return actionsClick(actions);
-    }
-
-    // 5. 如果按钮是黄色的，按住按钮，接着参考“松开按住的按钮”。
-    step.value = 5;
-    // actions.push(`第五步：检查按钮颜色（黄）`);
-    if (buttonColor.value == ButtonColor.yellow) {
-      return actionsHold(actions);
-    }
-
-    // 6. 如果是写有“按住”的红色按钮，按下按钮并立即松开。
-    step.value = 6;
-    // actions.push(`第六步：检查按钮文本（按住）与颜色（红）`);
-    if (buttonText.value == ButtonText.hold && buttonColor.value == ButtonColor.red) {
-      return actionsClick(actions);
-    }
-
-    // 7. 如果不满足上述任一情况，按住按钮，接着参考“松开按住的按钮”。
-    step.value = 7;
-    // actions.push(`第七步：其他情况`);
-    return actionsHold(actions);
-  });
-
-  function actionsHold(actions : string[]) {
-    step.value = 8;
-    actions.push("按住按钮，检查模块右侧彩色光条");
-    if (lightColor.value == LightColor.none) {
-      actions.push(`请选择灯条颜色`);
-      finalAction.value = "请选择灯条颜色";
-      return actions;
-    }
-
-    actions.push(`灯条颜色：${LightColor[lightColor.value]}`);
-    actions.push(`检查计时器，观察任意位数出现的数字`);
-    let num = 1;
-    switch (lightColor.value) {
-      case LightColor.blue:
-        num = 4;
-        break;
-      case LightColor.yellow:
-        num = 5;
-        break;
-    }
-    actions.push(`在计时器任意数位显示${num}时松开`);
-    step.value = 9;
-    finalAction.value = `在计时器任意数位显示${num}时松开`;
-
-    return actions;
-  }
-
-  function actionsClick(actions : string[]) {
-    step.value = 9;
-    actions.push(`按下按钮并立即松开`);
-    finalAction.value = `按下按钮并立即松开`;
-    return actions;
-  }
-
-  const finalAction = ref<string>("");
 
   enum StepResult {
     wait,
@@ -184,6 +69,14 @@
     goto,
     end
   }
+
+  const buttonColor = ref<ButtonColor>(ButtonColor.none);
+  const buttonText = ref<ButtonText>(ButtonText.none);
+  const lightColor = ref<LightColor>(LightColor.none);
+  const indicatorChecked = ref<boolean>(false);
+  const step = ref<number>(0);
+  const stepDesc = ref<string[]>([]);
+  const finalAction = ref<string>("");
 
   function steps() : StepResult {
     step.value = 0;
@@ -458,9 +351,22 @@
       },
     ];
   });
+  
+  function reset() {
+    buttonColor.value = ButtonColor.none;
+    buttonText.value = ButtonText.none;
+    lightColor.value = LightColor.none;
+    indicatorChecked.value = false;
+    step.value = 0;
+    stepDesc.value = [];
+    finalAction.value = "";
+  }
 </script>
 
 <template>
+  <und-section title="操作步骤">
+    <uni-steps :options="stepsOptions" :active="step" direction="column" />
+  </und-section>
   <und-section title="模块信息">
     <und-row title="按钮文本" :title-width="labelWidth">
       <uni-data-select v-model="buttonText" :localdata="ButtonTextDatas" :clear="false" />
@@ -487,14 +393,11 @@
         </view>
       </view>
     </und-row>
-  </und-section>
-  <und-section title="操作">
-    <uni-steps :options="stepsOptions" :active="step" direction="column" />
-    <!--
-    <view v-for="action in actions" class="actions">
-      <text>{{ action }}</text>
-    </view>
-    -->
+    <uni-row :gutter="4">
+      <uni-col :span="12" :offset="6">
+        <button type="warn" @click="reset">重置</button>
+      </uni-col>
+    </uni-row>
   </und-section>
 </template>
 
