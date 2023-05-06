@@ -3,7 +3,7 @@
   import { WireColor, WireStatus } from './defines';
   import { useWireSequencesStore } from '@/stores/WireSequencesStore';
   
-  const labelWidth = ref(200);
+  const labelWidth = ref(220);
   const labelMarginTop = ref(15);
   const store = useWireSequencesStore();
   

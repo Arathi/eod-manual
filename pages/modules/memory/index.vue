@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { computed, ref } from "vue";
   import { useBombStore } from '@/stores/BombStore';
+  import UndSection from '@/components/Section.vue';
+  import UndRow from '@/components/UndRow.vue';
 
   const bombStore = useBombStore();
 
@@ -202,7 +204,7 @@
 </script>
 
 <template>
-  <uni-section title="模块信息" type="line">
+  <und-section title="模块信息">
     <view class="memoryModule">
       <uni-row>
         <uni-col :offset="4" :span="16">
@@ -232,8 +234,8 @@
         </uni-col>
       </uni-row>
     </view>
-  </uni-section>
-  <uni-section title="数据输入" type="line">
+  </und-section>
+  <und-section title="数据输入">
     <view class="memoryModule">
       <uni-row :gutter="4">
         <uni-col :span="4" :offset="4">
@@ -250,8 +252,8 @@
         </uni-col>
       </uni-row>
     </view>
-  </uni-section>
-  <uni-section title="历史" type="line">
+  </und-section>
+  <und-section title="历史">
     <uni-row :gutter="2">
       <uni-col :span="3">步骤</uni-col>
       <uni-col :span="3">显示</uni-col>
@@ -288,7 +290,7 @@
         </uni-col>
       </uni-row>
     </template>
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>

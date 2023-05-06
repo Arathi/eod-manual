@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import { computed, ref } from "vue";
   import { useBombStore } from '@/stores/BombStore';
+  import UndSection from '@/components/Section.vue';
+  import UndRow from '@/components/UndRow.vue';
 
   const bombStore = useBombStore();
 
   // 标签宽度
-  const labelWidth = ref(90);
+  const labelWidth = ref(180);
 
   enum ButtonText {
     none,
@@ -66,7 +68,7 @@
 
   const step = ref<number>(0);
   const stepDesc = ref<string[]>([]);
-  
+
   const ActionDescClick = "按下按钮并立即松开";
 
   const actions = computed(() => {
@@ -175,7 +177,7 @@
   }
 
   const finalAction = ref<string>("");
-  
+
   enum StepResult {
     wait,
     goon,
@@ -189,12 +191,12 @@
     for (let s = 0; s < 10; s++) {
       stepDesc.value[s] = '未执行';
     }
-    
+
     let result = step0();
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step1();
     if (result == StepResult.goto) {
       return stepHold();
@@ -202,7 +204,7 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step2();
     if (result == StepResult.goto) {
       return stepFinal(ActionDescClick);
@@ -210,7 +212,7 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step3();
     if (result == StepResult.goto) {
       return stepHold();
@@ -218,7 +220,7 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step4();
     if (result == StepResult.goto) {
       return stepFinal(ActionDescClick);
@@ -226,7 +228,7 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step5();
     if (result == StepResult.goto) {
       return stepHold();
@@ -234,7 +236,7 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     result = step6();
     if (result == StepResult.goto) {
       return stepFinal(ActionDescClick);
@@ -242,147 +244,147 @@
     if (result == StepResult.wait) {
       return result;
     }
-    
+
     step.value = 7;
     return stepHold();
   }
-  
+
   // 中止按钮 + 蓝按钮
   function step0() : StepResult {
     let result = StepResult.goon;
     let pass = true;
-    
+
     if (buttonText.value == ButtonText.none) {
       result = StepResult.wait;
       pass = false;
     }
     stepDesc.value[0] = `文本（${pass ? '✓' : '╳'}）`;
-    
+
     if (buttonColor.value == ButtonColor.none) {
       result = StepResult.wait;
       pass = false;
     }
     stepDesc.value[0] += ` 颜色（${pass ? '✓' : '╳'}）`;
-    
+
     return result;
   }
 
   // 中止按钮 + 蓝按钮 + 任意光条
   function step1() : StepResult {
     step.value = 1;
-    
+
     let result = StepResult.goon;
     let pass = true;
-    
+
     if (buttonText.value != ButtonText.abort) {
       pass = false;
     }
     stepDesc.value[step.value] = `中止（${pass ? '✓' : '╳'}）`;
-    
+
     if (buttonColor.value != ButtonColor.blue) {
       pass = false;
     }
     stepDesc.value[step.value] += ` 蓝色（${pass ? '✓' : '╳'}）`;
-    
+
     if (pass) {
       result = StepResult.goto;
     }
-    
+
     return result;
   }
-  
+
   // 引爆按钮 + 蓝按钮 + 电池2
   function step2() : StepResult {
     step.value = 2;
-    
+
     const cellAmount = bombStore.cellAmount;
     if (cellAmount < 0) {
       stepDesc.value[step.value] = `请选择电池数量`;
       return StepResult.wait;
     }
-    
+
     stepDesc.value[step.value] = `电池数量（${cellAmount > 1 ? '✓' : '╳'}）`;
     const detonate = buttonText.value == ButtonText.detonate;
     stepDesc.value[step.value] += ` 引爆（${detonate ? '✓' : '╳'}）`;
-    
+
     if (cellAmount > 1 && detonate) {
       return StepResult.goto;
     }
-    
+
     return StepResult.goon;
   }
-  
+
   // 引爆按钮 + 白按钮 + 电池1 + CAR
   function step3() : StepResult {
     step.value = 3;
-    
+
     const checked = indicatorChecked.value;
     if (!checked) {
       stepDesc.value[step.value] = `请确认指示灯`;
       return StepResult.wait;
     }
-    
+
     const white = buttonColor.value == ButtonColor.white;
-    
+
     stepDesc.value[step.value] = `白色（${white ? '✓' : '╳'}）`;
     stepDesc.value[step.value] += ` CAR（${bombStore.CAR ? '✓' : '╳'}）`;
-    
+
     if (white && bombStore.CAR) {
       return StepResult.goto;
     }
-    
+
     return StepResult.goon;
   }
-  
+
   // 中止按钮 + 白按钮 + 电池3 + FRK[v]
   function step4() : StepResult {
     step.value = 4;
-    
+
     stepDesc.value[step.value] = `电池数量（${bombStore.cellAmount > 2 ? '✓' : '╳'}）`;
     stepDesc.value[step.value] += ` FRK（${bombStore.FRK ? '✓' : '╳'}）`;
-    
+
     if (bombStore.cellAmount > 2 && bombStore.FRK) {
       return StepResult.goto;
     }
-    
+
     return StepResult.goon;
   }
-  
+
   // 中止按钮 + 黄按钮 + 电池3 + CAR[x] + FRK[x]
   function step5() : StepResult {
     step.value = 5;
-    
+
     const yellow = buttonColor.value == ButtonColor.yellow;
     stepDesc.value[step.value] = `黄色（${yellow ? '✓' : '╳'}）`;
-    
+
     if (yellow) {
       return StepResult.goto;
     }
-    
+
     return StepResult.goon;
   }
-  
+
   // 按住按钮 + 红按钮 + 电池3 + CAR[x] + FRK[x]
   function step6() : StepResult {
     step.value = 6;
-    
+
     const hold = buttonText.value == ButtonText.hold;
     const red = buttonColor.value == ButtonColor.red;
-    
+
     stepDesc.value[step.value] = `按住（${hold ? '✓' : '╳'}）`;
     stepDesc.value[step.value] += `红色（${red ? '✓' : '╳'}）`;
-    
+
     if (hold && red) {
       return StepResult.goto;
     }
-    
+
     return StepResult.goon;
   }
-  
+
   function stepHold() : StepResult {
     step.value = 8;
-    
-    let pass: boolean = true;
+
+    let pass : boolean = true;
     if (lightColor.value == LightColor.none) {
       pass = false;
     }
@@ -390,7 +392,7 @@
     if (!pass) {
       return StepResult.wait;
     }
-    
+
     let num = 1;
     switch (lightColor.value) {
       case LightColor.blue:
@@ -400,11 +402,11 @@
         num = 5;
         break;
     }
-    
+
     return stepFinal("继续按住按钮，并检查倒计时", `在计时器任意数位显示${num}时松开按钮`);
   }
-  
-  function stepFinal(action: string, description: string = "") : StepResult {
+
+  function stepFinal(action : string, description : string = "") : StepResult {
     step.value = 9;
     finalAction.value = action;
     stepDesc.value[step.value] = description;
@@ -459,43 +461,49 @@
 </script>
 
 <template>
-  <uni-section title="模块信息" type="line" class="section">
-    <uni-forms-item label="按钮文本" :label-width="labelWidth">
+  <und-section title="模块信息">
+    <und-row title="按钮文本" :title-width="labelWidth">
       <uni-data-select v-model="buttonText" :localdata="ButtonTextDatas" :clear="false" />
-    </uni-forms-item>
-    <uni-forms-item label="按钮颜色" :label-width="labelWidth">
+    </und-row>
+    <und-row title="按钮颜色" :title-width="labelWidth">
       <uni-data-select v-model="buttonColor" :localdata="ButtonColorDatas" :clear="false" />
-    </uni-forms-item>
-    <uni-forms-item label="光条颜色" :label-width="labelWidth">
+    </und-row>
+    <und-row title="光条颜色" :title-width="labelWidth" :margin-bottom="0">
       <uni-data-select v-model="lightColor" :localdata="LightColorDatas" :clear="false" />
-    </uni-forms-item>
-  </uni-section>
-  <uni-section title="全局信息" type="line" class="section">
-    <uni-forms-item label="电池数量" :label-width="labelWidth">
+    </und-row>
+  </und-section>
+  <und-section title="全局信息">
+    <und-row title="电池数量" :title-width="labelWidth">
       <uni-data-select v-model="bombStore.cellAmount" :localdata="CellAmountDatas" :clear="false" />
-    </uni-forms-item>
-    <uni-forms-item label="指示灯" :label-width="labelWidth">
-      <view>
+    </und-row>
+    <und-row title="指示灯" :title-width="labelWidth" :margin-bottom="0">
+      <view class="indicators-group">
         <uni-tag text="CAR" size="small" class="indicators" @click="bombStore.toggleIndicator('CAR')"
           :type="`${bombStore.CAR ? 'success' : 'default'}`" />
         <uni-tag text="FRK" size="small" class="indicators" @click="bombStore.toggleIndicator('FRK')"
           :type="`${bombStore.FRK ? 'success' : 'default'}`" />
-        <button size="mini" @click="indicatorChecked = true">确认</button>
+        <view>
+          <button size="mini" @click="indicatorChecked = true">确认</button>
+        </view>
       </view>
-    </uni-forms-item>
-  </uni-section>
-  <uni-section title="操作" type="line" class="section">
+    </und-row>
+  </und-section>
+  <und-section title="操作">
     <uni-steps :options="stepsOptions" :active="step" direction="column" />
     <!--
     <view v-for="action in actions" class="actions">
       <text>{{ action }}</text>
     </view>
     -->
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>
+  .indicators-group {
+    display: flex;
+    align-items: center;
+  }
   .indicators {
-    margin-right: 8rpx;
+    margin-right: 16rpx;
   }
 </style>

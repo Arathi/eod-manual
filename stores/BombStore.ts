@@ -82,7 +82,7 @@ export const useBombStore = defineStore('bomb', {
         if (index >= 0) return true;
         return false;
       }
-      return state._seqLastType;
+      return state._seqHasVowel;
     },
     
     CAR: (state: State) => {

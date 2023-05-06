@@ -34,6 +34,11 @@
 		"style": {
 			"navigationBarTitleText": "顺序线路"
 		}
+	}, {
+		"path": "pages/test/index",
+		"style": {
+			"navigationBarTitleText": "组件测试"
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

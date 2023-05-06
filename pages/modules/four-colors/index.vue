@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import { computed, ref } from "vue";
   import { useBombStore } from '@/stores/BombStore';
+  import UndSection from '@/components/Section.vue';
+  import UndRow from '@/components/UndRow.vue';
   
   const bombStore = useBombStore();
   
   // 标签宽度
-  const labelWidth = ref(90);
+  const labelWidth = ref(180);
   
   const ErrorCountDatas = [
     { value: 0, text: "无失误" },
@@ -36,7 +38,7 @@
   
   const screenWidth = ref(window.innerWidth);
   const blockWidth = computed(() => screenWidth.value / 4);
-  const halfHeightBlockWidth = computed(() => screenWidth.value / 8);
+  const halfHeightBlockWidth = computed(() => screenWidth.value * 0.1);
   const actionBlockWidth = computed(() => (screenWidth.value - 32) / 8);
   
   // 闪光顺序
@@ -164,7 +166,24 @@
 </script>
 
 <template>
-  <uni-section title="模块信息" type="line">
+  <und-section title="全局信息">
+    <und-row title="序列号元音" :title-width="labelWidth">
+      <uni-data-select 
+        v-model="seqHasVowel" 
+        :localdata="SeqVoewlDatas" 
+        :clear="false"
+        :disabled="seqHasVowelDisabled"
+      />
+    </und-row>
+    <und-row title="失误次数" :title-width="labelWidth" :margin-bottom="0">
+      <uni-data-select 
+        v-model="bombStore.errorCount" 
+        :localdata="ErrorCountDatas" 
+        :clear="false"
+      />
+    </und-row>
+  </und-section>
+  <und-section title="模块信息">
     <view class="buttons">
       <uni-row>
         <uni-col><view class="half-height-block"></view></uni-col>
@@ -189,38 +208,21 @@
         <uni-col><view class="half-height-block"></view></uni-col>
       </uni-row>
     </view>
-  </uni-section>
-  <uni-section title="全局信息" type="line">
-    <uni-forms-item label="序列号元音" :label-width="labelWidth">
-      <uni-data-select 
-        v-model="seqHasVowel" 
-        :localdata="SeqVoewlDatas" 
-        :clear="false"
-        :disabled="seqHasVowelDisabled"
-      />
-    </uni-forms-item>
-    <uni-forms-item label="失误次数" :label-width="labelWidth">
-      <uni-data-select 
-        v-model="bombStore.errorCount" 
-        :localdata="ErrorCountDatas" 
-        :clear="false"
-      />
-    </uni-forms-item>
-  </uni-section>
-  <uni-section title="闪光顺序" type="line">
+  </und-section>
+  <und-section title="闪光顺序" type="line">
     <uni-row :gutter="3">
       <uni-col :span="3" v-for="color in flashColors">
         <view :class="`action-block block-${BlockColor[color]}`"></view>
       </uni-col>
     </uni-row>
-  </uni-section>
-  <uni-section title="点击顺序" type="line">
+  </und-section>
+  <und-section title="点击顺序" type="line">
     <uni-row :gutter="3">
       <uni-col :span="3" v-for="action in actions">
         <view :class="`action-block block-${BlockColor[action]}`"></view>
       </uni-col>
     </uni-row>
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>

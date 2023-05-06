@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue';
   import { useBombStore, SeqLastType } from '@/stores/BombStore';
+  import UndSection from '@/components/Section.vue';
+  import UndRow from '@/components/UndRow.vue';
 
   const bombStore = useBombStore();
 
   // 标签宽度
-  const labelWidth = ref(90);
+  const labelWidth = ref(180);
 
   // 线路数量
   const wireAmount = ref(3);
@@ -309,35 +311,31 @@
 </script>
 
 <template>
-  <uni-section title="模块信息" type="line" class="section">
-    <uni-forms-item label="线路数量" :label-width="labelWidth">
+  <und-section title="模块信息">
+    <und-row title="线路数量" :title-width="labelWidth">
       <uni-data-select v-model="wireAmount" :localdata="WireAmountDatas" :clear="false" />
-    </uni-forms-item>
+    </und-row>
     <template v-for="wireIndex in wireAmount">
-      <uni-forms-item :label="`线路${wireIndex}颜色`" :label-width="labelWidth">
+      <und-row :title="`线路${wireIndex}颜色`" :title-width="labelWidth">
         <uni-data-select v-model="wireColors[wireIndex-1]" :localdata="WireColorDatas" :clear="false"
           placeholder="请选择颜色" />
-      </uni-forms-item>
+      </und-row>
     </template>
-  </uni-section>
-  <uni-section title="全局信息" type="line" class="section">
-    <uni-forms-item label="序列号末位" :label-width="labelWidth" v-if="wireAmount >= 4">
+  </und-section>
+  <und-section title="全局信息">
+    <und-row title="序列号末位" :title-width="labelWidth" v-if="wireAmount >= 4">
       <uni-data-select v-model="seqLastType" :localdata="SeqLastTypeDatas" :clear="false"
         :disabled="seqLastTypeDisabled" />
-    </uni-forms-item>
-  </uni-section>
-  <uni-section title="操作" type="line" class="section">
+    </und-row>
+  </und-section>
+  <und-section title="操作" type="line">
     <view v-for="action in actions" class="actions">
       <text>{{ action }}</text>
     </view>
-  </uni-section>
+  </und-section>
 </template>
 
 <style scoped>
-  .section {
-    margin: 0 16rpx 16rpx 16rpx;
-  }
-
   .actions {
     width: 100%;
   }
