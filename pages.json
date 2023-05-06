@@ -29,6 +29,11 @@
 		"style": {
 			"navigationBarTitleText": "摩斯电码"
 		}
+	}, {
+		"path": "pages/modules/wire-sequences/index",
+		"style": {
+			"navigationBarTitleText": "顺序线路"
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
